@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="br.edu.ifspsaocarlos.sdm.workchat.NewUserActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cadastro de Usuário"
+        android:textAlignment="center"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:id="@+id/et_full_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nome Completo" />
+
+    <EditText
+        android:id="@+id/et_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Apeldio" />
+
+    <EditText
+        android:id="@+id/et_password_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Digite a password"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/et_password_register_repeat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Digite a password novamente"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/bt_new_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Salvar" />
+</LinearLayout>
