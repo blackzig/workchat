@@ -47,7 +47,7 @@ public class NewUserActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //save user no webservice nobile
+                //save user no web service nobile
                 Endpoint endpoint = new Endpoint();
                 mensageiroApi = endpoint.mensageiroAPI();
 

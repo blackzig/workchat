@@ -8,10 +8,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class Contato {
 
+    private String id;
     @SerializedName("nome_completo")
     private String nomeCompleto;
     private String apelido;
-    private String id;
 
     public Contato(String nomeCompleto, String apelido, String id) {
         this.nomeCompleto = nomeCompleto;

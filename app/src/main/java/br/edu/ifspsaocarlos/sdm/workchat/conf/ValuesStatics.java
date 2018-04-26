@@ -8,6 +8,7 @@ public class ValuesStatics {
 
     private static String ID_USER;
     private static String NICKNAME;
+   // private static String SERVER = "https://name-generator-black.herokuapp.com/";
 
     public static String getIdUser() {
         return ID_USER;
@@ -24,4 +25,12 @@ public class ValuesStatics {
     public static void setNICKNAME(String NICKNAME) {
         ValuesStatics.NICKNAME = NICKNAME;
     }
+/*
+    public static String getSERVER() {
+        return SERVER;
+    }
+
+    public static void setSERVER(String SERVER) {
+        ValuesStatics.SERVER = SERVER;
+    }*/
 }
