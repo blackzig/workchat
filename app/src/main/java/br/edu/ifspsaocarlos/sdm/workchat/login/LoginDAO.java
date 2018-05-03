@@ -7,6 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import br.edu.ifspsaocarlos.sdm.workchat.models.Contato;
 import br.edu.ifspsaocarlos.sdm.workchat.models.User;
 
 /**
@@ -15,20 +19,35 @@ import br.edu.ifspsaocarlos.sdm.workchat.models.User;
 
 public class LoginDAO extends SQLiteOpenHelper {
 
+    private static final String CREATE_TABLE_USER =
+            "CREATE TABLE User(" +
+                    "id TEXT unique PRIMARY KEY, " +
+                    "login TEXT not null, " +
+                    "password TEXT not null);";
+
+    private static final String CREATE_TABLE_CONTATO =
+            "CREATE TABLE Contato(" +
+                    "id TEXT unique PRIMARY KEY, " +
+                    "nome_completo TEXT not null);";
+
     public LoginDAO(Context context) {
-        super(context, "WorkChat", null, 1);
+        super(context, "WorkChat", null, 2);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE User(id TEXT PRIMARY KEY, login TEXT not null, " +
-                "password TEXT not null);";
-        db.execSQL(sql);
+        db.execSQL(CREATE_TABLE_USER);
+        db.execSQL(CREATE_TABLE_CONTATO);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // on upgrade drop older tables
+        db.execSQL("DROP TABLE IF EXISTS User");
+        db.execSQL("DROP TABLE IF EXISTS Contato");
 
+        // create new tables
+        onCreate(db);
     }
 
     public void insert(User user) {
@@ -67,4 +86,38 @@ public class LoginDAO extends SQLiteOpenHelper {
         }
         return null;
     }
+
+    public void insertContato(Contato contato) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id", contato.getId());
+        values.put("nome_completo", contato.getNomeCompleto());
+
+        db.insert("Contato", null, values);
+    }
+
+    public List<Contato> buscaTodosContatos() {
+        SQLiteDatabase db = getReadableDatabase();
+        List<Contato> contatos = new ArrayList<>();
+
+        String columns[] = {"id", "nome_completo"};
+        Cursor c = db.query("Contato", //Table to query
+                columns,                    //columns to return
+                null,                  //columns for the WHERE clause
+                null,              //The values for the WHERE clause
+                null,                       //group the rows
+                null,                       //filter by row groups
+                "nome_completo");                      //The sort order
+
+        while (c.moveToNext()) {
+            Contato contato = new Contato();
+            contato.setId(c.getString(0));
+            contato.setNomeCompleto(c.getString(1));
+            contatos.add(contato);
+        }
+        c.close();
+        db.close();
+        return contatos;
+    }
+
 }

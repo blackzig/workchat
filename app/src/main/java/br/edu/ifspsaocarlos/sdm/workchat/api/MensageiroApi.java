@@ -25,6 +25,5 @@ public interface MensageiroApi {
 
     @POST("contato/{idContato}")
     Call<Contato> updateNameMyPerfil(@Path("idContato") String idContato,
-                                     @Body Contato contato
-    );
+                                     @Body Contato contato);
 }

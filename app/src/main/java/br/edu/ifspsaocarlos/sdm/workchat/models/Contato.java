@@ -13,6 +13,9 @@ public class Contato {
     private String nomeCompleto;
     private String apelido;
 
+    public Contato() {
+    }
+
     public Contato(String nomeCompleto, String apelido, String id) {
         this.nomeCompleto = nomeCompleto;
         this.apelido = apelido;

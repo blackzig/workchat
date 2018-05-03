@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    private void changedNickname() {
+    public void changedNickname() {
         final Endpoint endpoint = new Endpoint();
         nameGenerator = endpoint.nameGenerator();
 
