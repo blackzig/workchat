@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void login() {
-        User user = new User(etLogin.getText().toString(), etPassword.getText().toString());
+        User user = new User(etLogin.getText().toString().trim(), etPassword.getText().toString().trim());
 
         LoginDAO loginDAO = new LoginDAO(this);
         User u = loginDAO.login(user);

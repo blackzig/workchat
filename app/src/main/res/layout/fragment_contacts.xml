@@ -13,42 +13,20 @@
         android:background="@color/cardview_dark_background"
         app:cardElevation="5dp">
 
-
-        <ListView
-            android:id="@+id/lv_list_contacts"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary">
+            android:orientation="vertical">
 
-        </ListView>
-        <!--
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:orientation="vertical">
+            <ListView
+                android:id="@+id/lv_list_contacts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary">
+            </ListView>
 
+        </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/tv_nameUserList"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="16dp"
-                            android:text="Name"
-                            android:textColor="@color/White"
-                            android:textSize="22sp"
-                            android:textStyle="bold" />
-
-                        <Button
-                            android:id="@+id/bt_removeContact"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Adicionar aos Contatos" />
-
-
-
-                </LinearLayout>
-        -->
     </android.support.v7.widget.CardView>
 
 </FrameLayout>

@@ -1,21 +1,25 @@
 package br.edu.ifspsaocarlos.sdm.workchat.adapter;
 
+import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
+import br.edu.ifspsaocarlos.sdm.workchat.R;
 import br.edu.ifspsaocarlos.sdm.workchat.models.Contato;
 
 public class ContatosAdapter extends BaseAdapter {
-    private final List<Contato> list;
-    private View rootView;
 
-    public ContatosAdapter(View rootView, List<Contato> list) {
+    private final List<Contato> list;
+    private Activity act;
+
+    public ContatosAdapter(Activity act, List<Contato> list) {
         this.list = list;
-        this.rootView = rootView;
+        this.act = act;
     }
 
     @Override
@@ -35,11 +39,23 @@ public class ContatosAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView textView = new TextView(rootView.getContext());
-        String nomeContato = list.get(position).getNomeCompleto();
-        textView.setTextSize(26);
-        textView.setTextColor(0xFF00FF00);
-        textView.setText(nomeContato);
-        return textView;
+        View view = act.getLayoutInflater()
+                .inflate(R.layout.item_contact, parent, false);
+        Contato contato = list.get(position);
+
+        //pegando as referências das Views
+        TextView name =
+                view.findViewById(R.id.tv_name_contact);
+        TextView nickname =
+                view.findViewById(R.id.tv_id_contact);
+        ImageView imagem =
+                view.findViewById(R.id.iv_photo_contact);
+
+        //populando as Views
+        name.setText(contato.getNomeCompleto());
+        nickname.setText(contato.getId());
+        imagem.setImageResource(R.mipmap.ic_launcher);
+
+        return view;
     }
 }

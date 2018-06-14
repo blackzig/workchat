@@ -82,8 +82,8 @@ public class NewUserActivity extends AppCompatActivity {
                 mensageiroApi = endpoint.mensageiroAPI();
 
                 Contato contato = new Contato(
-                        fullName.getText().toString(),
-                        nickname.getText().toString()
+                        fullName.getText().toString().trim(),
+                        nickname.getText().toString().trim()
                 );
 
 
@@ -96,6 +96,8 @@ public class NewUserActivity extends AppCompatActivity {
                             public void onResponse(Call<ResponseBody> call,
                                                    Response<ResponseBody> response) {
 
+                                Log.i("response>>>",response.body().toString());
+
                                 try {
                                     String responseBodyString = response.body().string();
                                     novoContato = gson.fromJson(responseBodyString, Contato.class);
@@ -103,8 +105,8 @@ public class NewUserActivity extends AppCompatActivity {
                                     //save user no sqlite
                                     User user = new User(
                                             novoContato.getId(),
-                                            nickname.getText().toString(),
-                                            password.getText().toString()
+                                            nickname.getText().toString().trim(),
+                                            password.getText().toString().trim()
                                     );
 
                                     LoginDAO loginDAO = new LoginDAO(NewUserActivity.this);
@@ -128,7 +130,6 @@ public class NewUserActivity extends AppCompatActivity {
                             }
                         }
                 );
-
             }
         });
     }
