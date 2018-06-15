@@ -2,11 +2,11 @@ package br.edu.ifspsaocarlos.sdm.workchat.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import android.view.View;
@@ -22,9 +22,9 @@ import java.util.List;
 
 import br.edu.ifspsaocarlos.sdm.workchat.R;
 import br.edu.ifspsaocarlos.sdm.workchat.adapter.ContatosAdapter;
-import br.edu.ifspsaocarlos.sdm.workchat.conf.ValuesStatics;
 import br.edu.ifspsaocarlos.sdm.workchat.login.LoginDAO;
 import br.edu.ifspsaocarlos.sdm.workchat.models.Contato;
+import br.edu.ifspsaocarlos.sdm.workchat.service.InfoContact;
 
 /**
  * Created by zigui on 26/04/2018.
@@ -35,6 +35,9 @@ public class ContactsFragment extends Fragment {
     List<Contato> list = new ArrayList<>();
     View rootView;
 
+    Integer sizeListContactsNow = 0;
+    Integer sizeListContactsOld = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_contacts, container, false);
@@ -44,9 +47,12 @@ public class ContactsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        LoginDAO loginDAO = new LoginDAO(getActivity());
-        list = loginDAO.buscaTodosContatos();
-        loginDAO.close();
+        sizeListContactsOld = sizeListContactsNow;
+        sizeListContactsNow = checkSizeListContacts();
+
+        if(sizeListContactsNow!=sizeListContactsOld){
+            removeContactDoestNotExist();
+        }
 
         ListView listView = rootView.findViewById(R.id.lv_list_contacts);
         ContatosAdapter adapter = new ContatosAdapter(getActivity(), list);
@@ -58,7 +64,7 @@ public class ContactsFragment extends Fragment {
                 TalksFragment t = new TalksFragment();
                 // t.getActivity().getIntent().putExtra("key", "value");
                 //Bundle args = new Bundle();
-             
+
                 //  getActivity().getIntent().putExtra("key", "value");
                 TabLayout tabhost = getActivity().findViewById(R.id.tabs);
                 tabhost.getTabAt(1).select();
@@ -100,5 +106,19 @@ public class ContactsFragment extends Fragment {
         alertDialog.show();
     }
 
+    private Integer checkSizeListContacts() {
+        LoginDAO loginDAO = new LoginDAO(getActivity());
+        list = loginDAO.buscaTodosContatos();
+        Integer size = list.size();
+        return size;
+    }
+
+    private void removeContactDoestNotExist() {
+        for (int i = 0; i < list.size(); i++) {
+            //remover contatos que não existem na database do nobile
+            InfoContact infoContact = new InfoContact();
+            infoContact.contactData(getActivity(), list.get(i));
+        }
+    }
 
 }

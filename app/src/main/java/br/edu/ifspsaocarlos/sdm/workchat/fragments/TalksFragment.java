@@ -33,8 +33,7 @@ public class TalksFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Bundle args = getArguments();
-        teste.setText("Aparece " + args.getString("EXTRAS"));
+
     }
 
     public Long getIdContact() {

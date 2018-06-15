@@ -24,6 +24,7 @@ import br.edu.ifspsaocarlos.sdm.workchat.models.FullName;
 import br.edu.ifspsaocarlos.sdm.workchat.models.User;
 import br.edu.ifspsaocarlos.sdm.workchat.service.Endpoint;
 
+import br.edu.ifspsaocarlos.sdm.workchat.service.InfoContact;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private NameGenerator nameGenerator;
 
     Contato contato;
-    private Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,92 +73,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void login() {
         User user = new User(etLogin.getText().toString().trim(), etPassword.getText().toString().trim());
 
-        LoginDAO loginDAO = new LoginDAO(this);
-        User u = loginDAO.login(user);
-        loginDAO.close();
+        Boolean itsOk = userData();
 
-        if (u != null) {
-            ValuesStatics.setIdUser(u.getId());
-            ValuesStatics.setNICKNAME(u.getLogin());
-            returnUserData(u);
+        if (itsOk == true) {
+            LoginDAO loginDAO = new LoginDAO(this);
+            User u = loginDAO.login(user);
+            loginDAO.close();
 
-            startActivity(new Intent(MainActivity.this, MainTabActivity.class));
-        } else {
-            //pode fazer uma rotina para caso alguém zere o web service nobile
-            Toast.makeText(this, "Login ou senha erradas.", Toast.LENGTH_SHORT).show();
+            if (u != null) {
+                ValuesStatics.setIdUser(u.getId());
+                ValuesStatics.setNICKNAME(u.getLogin());
+
+                InfoContact infoContact = new InfoContact();
+                infoContact.returnUserData(this, u);
+
+                startActivity(new Intent(MainActivity.this, MainTabActivity.class));
+            } else {
+                //pode fazer uma rotina para caso alguém zere o web service nobile
+                Toast.makeText(this, "Login ou senha erradas.", Toast.LENGTH_SHORT).show();
+            }
         }
+
     }
 
-    private void returnUserData(User u) {
-        final Endpoint endpoint = new Endpoint();
-        mensageiroApi = endpoint.mensageiroAPI();
+    private Boolean userData() {
+        Boolean itsOk = true;
+        User user;
+        LoginDAO loginDAO = new LoginDAO(this);
+        user = loginDAO.userData(etLogin.getText().toString().trim());
+        Log.i("User>>>", String.valueOf(user));
 
-        Call<Contato> callContato = mensageiroApi.getContato(u.getId());
-        callContato.enqueue(new Callback<Contato>() {
+        Contato contato = new Contato();
+        contato.setId(user.getId());
+        contato.setApelido(user.getLogin());
 
-            @Override
-            public void onResponse(Call<Contato> call, Response<Contato> response) {
-                contato = response.body();
-                Contato c = new Contato(contato.getNomeCompleto(), contato.getApelido(), contato.getId());
+        InfoContact infoContact = new InfoContact();
+        infoContact.userData(this, contato);
 
-                if (!ValuesStatics.getNICKNAME().equalsIgnoreCase(c.getApelido())) {
-                    changedNickname();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Contato> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Erro ao trazer as informações do usuário.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    public void changedNickname() {
-        final Endpoint endpoint = new Endpoint();
-        nameGenerator = endpoint.nameGenerator();
-
-        Call<FullName> callF = nameGenerator.getFullNameRaw();
-        callF.enqueue(new Callback<FullName>() {
-
-            @Override
-            public void onResponse(Call<FullName> call, Response<FullName> response) {
-                String fullName = response.body().getName();
-                returnsToTheOldNickname(fullName);
-            }
-
-            @Override
-            public void onFailure(Call<FullName> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Erro ao gerar um nome.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    public void returnsToTheOldNickname(String fullName) {
-        final Endpoint endpoint = new Endpoint();
-        mensageiroApi = endpoint.mensageiroAPI();
-
-        Contato contatoU = new Contato(
-                fullName,
-                ValuesStatics.getNICKNAME(),
-                ValuesStatics.getIdUser()
-        );
-
-        mensageiroApi.updateNameMyPerfil(
-                ValuesStatics.getIdUser(),
-                contatoU
-        ).enqueue(new Callback<Contato>() {
-            @Override
-            public void onResponse(Call<Contato> call, Response<Contato> response) {
-                String fullName = response.body().getNomeCompleto();
-                Log.i("fullName>>>", fullName);
-            }
-
-            @Override
-            public void onFailure(Call<Contato> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Erro ao tentar atualizar o nome do perfil.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        return itsOk;
     }
 }
 

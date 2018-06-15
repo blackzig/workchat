@@ -60,6 +60,28 @@ public class LoginDAO extends SQLiteOpenHelper {
         db.insert("User", null, values);
     }
 
+    public User userData(String login) {
+        SQLiteDatabase db = getReadableDatabase();
+        User contato = new User();
+
+        String columns[] = {"id", "login"};
+        Cursor c = db.query("User", //Table to query
+                columns,
+                "login = ?",
+                new String[]{login},              //The values for the WHERE clause
+                null,                       //group the rows
+                null,                       //filter by row groups
+                null);                      //The sort order
+
+        while (c.moveToNext()) {
+            contato.setId(c.getString(0));
+            contato.setLogin(c.getString(1));
+        }
+        c.close();
+        db.close();
+        return contato;
+    }
+
     public User login(User user) {
         try {
             SQLiteDatabase db = getReadableDatabase();
@@ -85,6 +107,11 @@ public class LoginDAO extends SQLiteOpenHelper {
             Log.i("Aviso login>", e.getMessage());
         }
         return null;
+    }
+
+    public boolean deleteUser(String id) {
+        SQLiteDatabase db = getWritableDatabase();
+        return db.delete("User", "id" + "=" + id, null) > 0;
     }
 
     public void insertContato(Contato contato) {
@@ -120,4 +147,30 @@ public class LoginDAO extends SQLiteOpenHelper {
         return contatos;
     }
 
+    public Contato contactData(String id) {
+        SQLiteDatabase db = getReadableDatabase();
+        Contato contato = new Contato();
+
+        String columns[] = {"id", "nome_completo"};
+        Cursor c = db.query("Contato", //Table to query
+                columns,
+                "id = ?",
+                new String[]{id},              //The values for the WHERE clause
+                null,                       //group the rows
+                null,                       //filter by row groups
+                null);                      //The sort order
+
+        while (c.moveToNext()) {
+            contato.setId(c.getString(0));
+            contato.setNomeCompleto(c.getString(1));
+        }
+        c.close();
+        db.close();
+        return contato;
+    }
+
+    public boolean deleteContact(String id) {
+        SQLiteDatabase db = getWritableDatabase();
+        return db.delete("Contato", "id" + "=" + id, null) > 0;
+    }
 }
