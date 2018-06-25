@@ -9,7 +9,7 @@ public class ValuesStatics {
     private static String ID_USER;
     private static String NICKNAME;
 
-    private static Long ID_CONTACT;
+    private static String ID_CONTACT;
 
     public static String getIdUser() {
         return ID_USER;
@@ -27,11 +27,11 @@ public class ValuesStatics {
         ValuesStatics.NICKNAME = NICKNAME;
     }
 
-    public static Long getIdContact() {
+    public static String getIdContact() {
         return ID_CONTACT;
     }
 
-    public static void setIdContact(Long idContact) {
+    public static void setIdContact(String idContact) {
         ID_CONTACT = idContact;
     }
 }

@@ -12,6 +12,8 @@ public class Contato {
     @SerializedName("nome_completo")
     private String nomeCompleto;
     private String apelido;
+    @SerializedName("id_user")
+    private String idUser;
 
     public Contato() {
     }
@@ -49,6 +51,14 @@ public class Contato {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 
     @Override

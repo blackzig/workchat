@@ -10,6 +10,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.ifspsaocarlos.sdm.workchat.conf.ValuesStatics;
 import br.edu.ifspsaocarlos.sdm.workchat.models.Contato;
 import br.edu.ifspsaocarlos.sdm.workchat.models.User;
 
@@ -27,17 +28,26 @@ public class LoginDAO extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_CONTATO =
             "CREATE TABLE Contato(" +
-                    "id TEXT unique PRIMARY KEY, " +
-                    "nome_completo TEXT not null);";
+                    "id TEXT PRIMARY KEY, " +
+                    "nome_completo TEXT not null, " +
+                    "id_user TEXT not null);";
+
+    private static final String CREATE_TABLE_TALK =
+            "CREATE TABLE Talk(" +
+                    "id TEXT PRIMARY KEY, " +
+                    "id_talk TEXT, " +
+                    "id_user TEXT, " +
+                    "id_contact TEXT);";
 
     public LoginDAO(Context context) {
-        super(context, "WorkChat", null, 2);
+        super(context, "WorkChat", null, 5);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_USER);
         db.execSQL(CREATE_TABLE_CONTATO);
+        db.execSQL(CREATE_TABLE_TALK);
     }
 
     @Override
@@ -45,6 +55,7 @@ public class LoginDAO extends SQLiteOpenHelper {
         // on upgrade drop older tables
         db.execSQL("DROP TABLE IF EXISTS User");
         db.execSQL("DROP TABLE IF EXISTS Contato");
+        db.execSQL("DROP TABLE IF EXISTS Talk");
 
         // create new tables
         onCreate(db);
@@ -119,6 +130,7 @@ public class LoginDAO extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("id", contato.getId());
         values.put("nome_completo", contato.getNomeCompleto());
+        values.put("id_user", contato.getIdUser());
 
         db.insert("Contato", null, values);
     }
@@ -130,8 +142,8 @@ public class LoginDAO extends SQLiteOpenHelper {
         String columns[] = {"id", "nome_completo"};
         Cursor c = db.query("Contato", //Table to query
                 columns,                    //columns to return
-                null,                  //columns for the WHERE clause
-                null,              //The values for the WHERE clause
+                "id_user = ?",                  //columns for the WHERE clause
+                new String[]{ValuesStatics.getIdUser()},              //The values for the WHERE clause
                 null,                       //group the rows
                 null,                       //filter by row groups
                 "nome_completo");                      //The sort order
@@ -173,4 +185,38 @@ public class LoginDAO extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         return db.delete("Contato", "id" + "=" + id, null) > 0;
     }
+/*
+    public Talk lastTalk(Long idContact) {
+        Log.i("idContact>>>", String.valueOf(idContact));
+        SQLiteDatabase db = getReadableDatabase();
+
+        Talk talk = new Talk();
+
+        String columns[] = {"id_talk"};
+        Cursor c = db.query("Talk", //Table to query
+                columns,
+                "id_contact = ?",
+                new String[]{String.valueOf(idContact)},              //The values for the WHERE clause
+                null,                       //group the rows
+                null,                       //filter by row groups
+                null);                      //The sort order
+
+        while (c.moveToNext()) {
+            talk.setIdContact(c.getString(0));
+        }
+        c.close();
+        db.close();
+        return talk;
+    }
+
+    public void insertTalk(Talk talk) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id_talk", talk.getIdTalk());
+        values.put("id_user", talk.getIdUser());
+        values.put("id_contact", talk.getIdContact());
+
+        db.insert("Talk", null, values);
+    }
+    */
 }

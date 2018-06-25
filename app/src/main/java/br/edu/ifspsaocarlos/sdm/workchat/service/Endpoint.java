@@ -26,7 +26,7 @@ public class Endpoint {
         gson = gsonBuilder.create();
 
         Retrofit.Builder builder = new Retrofit.Builder();
-        builder.baseUrl("http://www.nobile.pro.br/sdm/mensageiro/");
+        builder.baseUrl("http://www.nobile.pro.br/sdm4/mensageiro/");
         builder.addConverterFactory(GsonConverterFactory.create(gson));
         retrofit = builder.build();
         mensageiroApi = retrofit.create(MensageiroApi.class);

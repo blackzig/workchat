@@ -4,11 +4,37 @@
     android:layout_height="match_parent"
     tools:context="br.edu.ifspsaocarlos.sdm.workchat.fragments.UsersFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/talks"
+
+    <ListView
+        android:id="@+id/lv_messages"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Conversas" />
+        android:layout_height="469sp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="470sp">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <EditText
+            android:id="@+id/et_message_to_send"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+
+        <Button
+            android:id="@+id/bt_send"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Enviar" />
+
+    </LinearLayout>
+
 
 </FrameLayout>

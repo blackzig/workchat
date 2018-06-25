@@ -104,6 +104,7 @@ public class UsersFragment extends Fragment implements View.OnClickListener {
                 Contato c = new Contato();
                 c.setId(contato.getId());
                 c.setNomeCompleto(contato.getNomeCompleto());
+                c.setIdUser(ValuesStatics.getIdUser());
 
                 LoginDAO loginDAO = new LoginDAO(getActivity());
                 loginDAO.insertContato(c);

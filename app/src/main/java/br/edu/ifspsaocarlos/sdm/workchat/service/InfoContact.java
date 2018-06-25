@@ -115,6 +115,34 @@ public class InfoContact {
         });
     }
 
+    public Contato returnUserDataLogin(final Activity activity, User u) {
+        final Endpoint endpoint = new Endpoint();
+        mensageiroApi = endpoint.mensageiroAPI();
+        final Contato[] c = {null};
+
+        Call<Contato> callContato = mensageiroApi.getContato(u.getId());
+        callContato.enqueue(new Callback<Contato>() {
+
+            @Override
+            public void onResponse(Call<Contato> call, Response<Contato> response) {
+                contato = response.body();
+                c[0] = new Contato(contato.getNomeCompleto(), contato.getApelido(), contato.getId());
+
+                if (!ValuesStatics.getNICKNAME().equalsIgnoreCase(c[0].getApelido())) {
+                    changedNickname(activity);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Contato> call, Throwable t) {
+                Toast.makeText(activity, "Erro ao trazer as informações do usuário.",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
+        return c[0];
+    }
+
 
     private void changedNickname(final Activity activity) {
         final Endpoint endpoint = new Endpoint();

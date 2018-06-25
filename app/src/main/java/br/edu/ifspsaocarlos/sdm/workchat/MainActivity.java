@@ -87,6 +87,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 InfoContact infoContact = new InfoContact();
                 infoContact.returnUserData(this, u);
 
+                /*
+                                Contato c = null;
+                InfoContact infoContact = new InfoContact();
+                c = infoContact.returnUserDataLogin(this, u);
+
+                try {
+                    if (c.getApelido() == null) {
+                        Toast.makeText(this, "Esse usuário foi removido do servidor Nobile", Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(this, "Esse usuário foi removido do servidor Nobile", Toast.LENGTH_LONG).show();
+                }
+                 */
+
                 startActivity(new Intent(MainActivity.this, MainTabActivity.class));
             } else {
                 //pode fazer uma rotina para caso alguém zere o web service nobile
