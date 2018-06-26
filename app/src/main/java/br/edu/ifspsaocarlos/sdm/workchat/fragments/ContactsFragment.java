@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.ifspsaocarlos.sdm.workchat.EnviarActivity;
+import br.edu.ifspsaocarlos.sdm.workchat.MainActivity;
+import br.edu.ifspsaocarlos.sdm.workchat.MainTabActivity;
 import br.edu.ifspsaocarlos.sdm.workchat.R;
 import br.edu.ifspsaocarlos.sdm.workchat.adapter.ContatosAdapter;
 import br.edu.ifspsaocarlos.sdm.workchat.api.MensageiroApi;
@@ -29,6 +32,7 @@ import br.edu.ifspsaocarlos.sdm.workchat.conf.ValuesStatics;
 import br.edu.ifspsaocarlos.sdm.workchat.login.LoginDAO;
 import br.edu.ifspsaocarlos.sdm.workchat.models.Contato;
 import br.edu.ifspsaocarlos.sdm.workchat.models.Mensagem;
+import br.edu.ifspsaocarlos.sdm.workchat.models.Talk;
 import br.edu.ifspsaocarlos.sdm.workchat.service.Endpoint;
 import br.edu.ifspsaocarlos.sdm.workchat.service.InfoContact;
 import br.edu.ifspsaocarlos.sdm.workchat.service.TesteEndpoint;
@@ -73,9 +77,9 @@ public class ContactsFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TalksFragment tf = new TalksFragment();
-                tf.lastTalks(id);
-
+                lastTalks(id);
+                Toast.makeText(getActivity(), "Aqui", Toast.LENGTH_SHORT).show();
+                ValuesStatics.setIdContact(String.valueOf(id));
                 TabLayout tabhost = getActivity().findViewById(R.id.tabs);
                 tabhost.getTabAt(1).select();
             }
@@ -129,6 +133,57 @@ public class ContactsFragment extends Fragment {
             InfoContact infoContact = new InfoContact();
             infoContact.contactData(getActivity(), list.get(i));
         }
+    }
+
+    private void lastTalks(Long idContact) {
+        String idLastTalk = null;
+        LoginDAO loginDAO = new LoginDAO(getActivity());
+        Talk talk = loginDAO.lastTalk(idContact);
+
+        try {
+            idLastTalk = talk.getIdTalk();
+
+        } catch (Exception e) {
+            Log.i("Errortalk ", e.getMessage());
+        }
+
+/*
+
+        final Endpoint endpoint = new Endpoint();
+        mensageiroApi = endpoint.mensageiroAPI();
+////http://www.nobile.pro.br/sdm4/mensageiro/rawmensagens/1/958058/958059
+        Call<List<Mensagem>> mensagensDoRemetente = mensageiroApi.getMensagems(
+                "1", ValuesStatics.getIdUser(), String.valueOf(idContact));
+
+        mensagensDoRemetente.enqueue(new Callback<List<Mensagem>>() {
+
+            @Override
+            public void onResponse(Call<List<Mensagem>> call, Response<List<Mensagem>> response) {
+                List<Mensagem> listaMensagensRemetente = response.body();
+                Log.i("corpo>>>", String.valueOf(response.body()));
+
+                if (!listaMensagensRemetente.isEmpty()) {
+                    //  cabecalhoMensagem.setText("Mensagens entre " + listaMensagensRemetente.get(0).getOrigem().getNomeCompleto()
+                    //         + " e " + listaMensagensRemetente.get(0).getDestino().getNomeCompleto());
+
+                    for (Mensagem m : listaMensagensRemetente) {
+                        //listaMensagensFinal.add(m);
+                        Log.i("Mensagem ", m.getAssunto());
+                    }
+
+                    //  mensagensDoDestinatario();
+
+                } else {
+                  //  Toast.makeText(getActivity(), "Não há nenhuma mensagem.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Mensagem>> call, Throwable t) {
+
+            }
+        });
+*/
     }
 
 /*

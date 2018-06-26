@@ -1,0 +1,59 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_assunto_enviar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Assunto" />
+
+    <EditText
+        android:id="@+id/et_assunto_enviar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Digite o assunto das mensagem" />
+
+    <TextView
+        android:id="@+id/tv_corpo_enviar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mensagem" />
+
+    <EditText
+        android:id="@+id/et_corpo_enviar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Digite a mensagem" />
+
+    <Button
+        android:id="@+id/bt_enviar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enviar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_chat_entre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/Black"
+            android:text="Mensagens entre..."
+            android:textColor="@color/Yellow"
+            android:textSize="14dp"
+            android:textStyle="bold|italic" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_lista_do_chat_entre_remetente_e_destinatario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
+
+</LinearLayout>

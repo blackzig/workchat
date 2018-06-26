@@ -12,6 +12,7 @@ import java.util.List;
 
 import br.edu.ifspsaocarlos.sdm.workchat.conf.ValuesStatics;
 import br.edu.ifspsaocarlos.sdm.workchat.models.Contato;
+import br.edu.ifspsaocarlos.sdm.workchat.models.Talk;
 import br.edu.ifspsaocarlos.sdm.workchat.models.User;
 
 /**
@@ -185,7 +186,7 @@ public class LoginDAO extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         return db.delete("Contato", "id" + "=" + id, null) > 0;
     }
-/*
+
     public Talk lastTalk(Long idContact) {
         Log.i("idContact>>>", String.valueOf(idContact));
         SQLiteDatabase db = getReadableDatabase();
@@ -218,5 +219,5 @@ public class LoginDAO extends SQLiteOpenHelper {
 
         db.insert("Talk", null, values);
     }
-    */
+
 }
