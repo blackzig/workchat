@@ -1,7 +1,12 @@
 package br.edu.ifspsaocarlos.sdm.workchat;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.StrictMode;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,25 +14,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.gson.Gson;
 
 import br.edu.ifspsaocarlos.sdm.workchat.api.MensageiroApi;
 
 import br.edu.ifspsaocarlos.sdm.workchat.api.NameGenerator;
-import br.edu.ifspsaocarlos.sdm.workchat.conf.ValuesStatics;
 import br.edu.ifspsaocarlos.sdm.workchat.login.LoginDAO;
 import br.edu.ifspsaocarlos.sdm.workchat.models.Contato;
 
-import br.edu.ifspsaocarlos.sdm.workchat.models.FullName;
 import br.edu.ifspsaocarlos.sdm.workchat.models.User;
-import br.edu.ifspsaocarlos.sdm.workchat.service.Endpoint;
 
 import br.edu.ifspsaocarlos.sdm.workchat.service.InfoContact;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -71,7 +67,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void login() {
-        User user = new User(etLogin.getText().toString().trim(), etPassword.getText().toString().trim());
+        notifyThis();
+     /*   User user = new User(etLogin.getText().toString().trim(), etPassword.getText().toString().trim());
 
         Boolean itsOk = userData();
 
@@ -87,26 +84,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 InfoContact infoContact = new InfoContact();
                 infoContact.returnUserData(this, u);
 
-                /*
-                                Contato c = null;
-                InfoContact infoContact = new InfoContact();
-                c = infoContact.returnUserDataLogin(this, u);
-
-                try {
-                    if (c.getApelido() == null) {
-                        Toast.makeText(this, "Esse usuário foi removido do servidor Nobile", Toast.LENGTH_LONG).show();
-                    }
-                } catch (Exception e) {
-                    Toast.makeText(this, "Esse usuário foi removido do servidor Nobile", Toast.LENGTH_LONG).show();
-                }
-                 */
-
                 startActivity(new Intent(MainActivity.this, MainTabActivity.class));
             } else {
-                //pode fazer uma rotina para caso alguém zere o web service nobile
                 Toast.makeText(this, "Login ou senha erradas.", Toast.LENGTH_SHORT).show();
             }
-        }
+        }*/
 
     }
 
@@ -125,6 +107,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         infoContact.userData(this, contato);
 
         return itsOk;
+    }
+
+    public void notifyThis() {
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder b = new NotificationCompat.Builder(this);
+
+        b.setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.drawable.icons8red)
+                .setTicker("Hearty365")
+                .setContentTitle("Default notification")
+                .setContentText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
+                .setDefaults(Notification.DEFAULT_LIGHTS| Notification.DEFAULT_SOUND)
+                .setContentIntent(contentIntent)
+                .setContentInfo("Info");
+
+
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, b.build());
     }
 }
 

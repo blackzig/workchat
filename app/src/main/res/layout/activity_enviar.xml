@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -27,11 +28,29 @@
         android:layout_height="wrap_content"
         android:hint="Digite a mensagem" />
 
-    <Button
-        android:id="@+id/bt_enviar"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enviar" />
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bt_enviar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5sp"
+            android:text="Enviar" />
+
+        <Button
+            android:id="@+id/bt_load_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5sp"
+
+            android:text="Carregar Mensagens" />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,8 +71,9 @@
     <ListView
         android:id="@+id/lv_lista_do_chat_entre_remetente_e_destinatario"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </ListView>
+        android:layout_height="match_parent"
+        android:layout_marginBottom="55sp"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll" />
 
 </LinearLayout>

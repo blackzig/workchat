@@ -49,7 +49,7 @@ public class TalksFragment extends Fragment {
     private MensageiroApi mensageiroApi;
     private Gson gson;
 
-    private Button sendMessage;
+    private Button sendMessage, loadMessage;
     private EditText messageSent;
     private EditText subject;
 
@@ -59,6 +59,7 @@ public class TalksFragment extends Fragment {
     View rootView;
 
     List<Mensagem> listaMensagensFinal = new ArrayList<>();
+    List<Mensagem> listaMensagensRemetente = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,11 +68,19 @@ public class TalksFragment extends Fragment {
         subject = rootView.findViewById(R.id.et_assunto_enviar);
         messageSent = rootView.findViewById(R.id.et_corpo_enviar);
         sendMessage = rootView.findViewById(R.id.bt_enviar);
+        loadMessage = rootView.findViewById(R.id.bt_load_message);
 
         sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendMessage();
+            }
+        });
+
+        loadMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bringTalks();
             }
         });
 
@@ -81,21 +90,17 @@ public class TalksFragment extends Fragment {
 
         cabecalhoMensagem = rootView.findViewById(R.id.tv_chat_entre);
 
-        bringTalks();
-
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-       // Toast.makeText(getActivity(), "bringTalks Resume", Toast.LENGTH_SHORT).show();
-        bringTalks();
+        // Toast.makeText(getActivity(), "bringTalks Resume", Toast.LENGTH_SHORT).show();
     }
 
     private void bringTalks() {
-    //    Toast.makeText(getActivity(), "bringTalks", Toast.LENGTH_SHORT).show();
-      /*  final Endpoint endpoint = new Endpoint();
+        final Endpoint endpoint = new Endpoint();
         mensageiroApi = endpoint.mensageiroAPI();
 
         listaMensagensFinal.clear();
@@ -109,28 +114,22 @@ public class TalksFragment extends Fragment {
 
             @Override
             public void onResponse(Call<List<Mensagem>> call, Response<List<Mensagem>> response) {
-                List<Mensagem> listaMensagensRemetente = response.body();
+                listaMensagensRemetente = response.body();
 
                 if (!listaMensagensRemetente.isEmpty()) {
-                    cabecalhoMensagem.setText("Mensagens entre " + listaMensagensRemetente.get(0).getOrigem().getNomeCompleto()
-                            + " e " + listaMensagensRemetente.get(0).getDestino().getNomeCompleto());
-
                     for (Mensagem m : listaMensagensRemetente) {
                         listaMensagensFinal.add(m);
                     }
-
-                    mensagensDoDestinatario();
-
-                } else {
-                    Toast.makeText(getActivity(), "Não há nenhuma mensagem.", Toast.LENGTH_LONG).show();
                 }
+
+                mensagensDoDestinatario();
             }
 
             @Override
             public void onFailure(Call<List<Mensagem>> call, Throwable t) {
 
             }
-        });*/
+        });
     }
 
 
@@ -158,6 +157,13 @@ public class TalksFragment extends Fragment {
                             return o1.getId().compareTo(o2.getId());
                         }
                     });
+                }
+
+                if (listaMensagensFinal.isEmpty()) {
+                    Toast.makeText(getActivity(), "Não há nenhuma mensagem.", Toast.LENGTH_LONG).show();
+                } else {
+                    cabecalhoMensagem.setText("Mensagens entre " + listaMensagensFinal.get(0).getOrigem().getNomeCompleto()
+                            + " e " + listaMensagensFinal.get(0).getDestino().getNomeCompleto());
                 }
 
                 ChatAdapter messageAdapter = new ChatAdapter(listaMensagensFinal, TalksFragment.this);
@@ -199,9 +205,9 @@ public class TalksFragment extends Fragment {
                         @Override
                         public void onResponse(Call<ResponseBody> call,
                                                Response<ResponseBody> response) {
-                            Toast.makeText(getActivity(), "Mensagem enviada!",
-                                    Toast.LENGTH_LONG).show();
+                            // Toast.makeText(getActivity(), "Mensagem enviada!",Toast.LENGTH_LONG).show();
                             limparCampos();
+                            bringTalks();
                         }
 
                         @Override

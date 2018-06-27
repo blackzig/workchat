@@ -78,7 +78,6 @@ public class ContactsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 lastTalks(id);
-                Toast.makeText(getActivity(), "Aqui", Toast.LENGTH_SHORT).show();
                 ValuesStatics.setIdContact(String.valueOf(id));
                 TabLayout tabhost = getActivity().findViewById(R.id.tabs);
                 tabhost.getTabAt(1).select();

@@ -56,16 +56,17 @@ public class ChatAdapter extends BaseAdapter {
 
         if ((Integer.parseInt(idOrigemLista) > Integer.parseInt(idDestinoLista))) {
             messageOwner.setText("Enviado por: " + messageChat.getOrigem().getApelido());
+            messageOwner.setTextColor(Color.BLUE);
+            messageOwner.setTextSize(18);
             lineMessage.setBackgroundColor(Color.BLACK);
         } else {
             messageOwner.setText("Enviado por: " + messageChat.getOrigem().getApelido());
+            messageOwner.setTextSize(18);
             lineMessage.setBackgroundColor(Color.BLUE);
         }
 
-
         subject.setText("Assunto: " + messageChat.getAssunto());
         message.setText("Mensagem: " + messageChat.getCorpo());
-
 
         return lineMessage;
     }
