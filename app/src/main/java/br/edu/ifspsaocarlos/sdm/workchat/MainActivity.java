@@ -14,27 +14,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import br.edu.ifspsaocarlos.sdm.workchat.api.MensageiroApi;
 
 import br.edu.ifspsaocarlos.sdm.workchat.api.NameGenerator;
+import br.edu.ifspsaocarlos.sdm.workchat.conf.ValuesStatics;
 import br.edu.ifspsaocarlos.sdm.workchat.login.LoginDAO;
 import br.edu.ifspsaocarlos.sdm.workchat.models.Contato;
 
 import br.edu.ifspsaocarlos.sdm.workchat.models.User;
 
 import br.edu.ifspsaocarlos.sdm.workchat.service.InfoContact;
+import br.edu.ifspsaocarlos.sdm.workchat.service.VerifyMessages;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView newRegister;
     EditText etLogin, etPassword;
     Button login;
-
-    private MensageiroApi mensageiroApi;
-    private NameGenerator nameGenerator;
-
-    Contato contato;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         etLogin = findViewById(R.id.et_login);
         etPassword = findViewById(R.id.et_password);
+
+        VerifyMessages vm = new VerifyMessages();
+        vm.execute();
     }
 
     @Override
@@ -67,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void login() {
-        notifyThis();
-     /*   User user = new User(etLogin.getText().toString().trim(), etPassword.getText().toString().trim());
+        // notifyThis();
+        User user = new User(etLogin.getText().toString().trim(), etPassword.getText().toString().trim());
 
         Boolean itsOk = userData();
 
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 Toast.makeText(this, "Login ou senha erradas.", Toast.LENGTH_SHORT).show();
             }
-        }*/
+        }
 
     }
 
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setTicker("Hearty365")
                 .setContentTitle("Default notification")
                 .setContentText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
-                .setDefaults(Notification.DEFAULT_LIGHTS| Notification.DEFAULT_SOUND)
+                .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
                 .setContentIntent(contentIntent)
                 .setContentInfo("Info");
 

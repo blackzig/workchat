@@ -54,8 +54,8 @@ public class LoginDAO extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // on upgrade drop older tables
-        db.execSQL("DROP TABLE IF EXISTS User");
-        db.execSQL("DROP TABLE IF EXISTS Contato");
+       // db.execSQL("DROP TABLE IF EXISTS User");
+        //db.execSQL("DROP TABLE IF EXISTS Contato");
         db.execSQL("DROP TABLE IF EXISTS Talk");
 
         // create new tables

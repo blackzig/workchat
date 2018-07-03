@@ -42,7 +42,6 @@ public class Endpoint {
 
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl("https://name-generator-black.herokuapp.com/");
-       // builder.baseUrl("http://192.168.10.16:8080/");
         builder.addConverterFactory(GsonConverterFactory.create(gson));
         retrofit = builder.build();
         nameGenerator = retrofit.create(NameGenerator.class);
